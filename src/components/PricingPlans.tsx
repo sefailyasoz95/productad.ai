@@ -60,13 +60,8 @@ const PricingPlans = () => {
             </div>
           </div>
           
-          {/* Pro Plan - Featured */}
-          <div className="bg-background rounded-lg overflow-hidden shadow-xl border border-brand-purple/30 relative transform scale-105 sm:scale-105 z-10">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-purple to-brand-teal"></div>
-            <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-brand-purple to-brand-teal text-white px-4 py-1 rounded-full text-sm font-medium">
-              Most Popular
-            </div>
-            
+          {/* Pro Plan */}
+          <div className="bg-background rounded-lg overflow-hidden shadow-lg border border-border">
             <div className="p-6 border-b border-border">
               <h3 className="text-2xl font-semibold">Pro</h3>
               <div className="mt-4 flex items-baseline">
@@ -104,14 +99,19 @@ const PricingPlans = () => {
                 </li>
               </ul>
               
-              <Button className="w-full mt-8 bg-gradient-to-r from-brand-purple to-brand-teal hover:opacity-90">
+              <Button className="w-full mt-8 bg-gradient-to-r from-brand-purple to-brand-blue hover:opacity-90">
                 Choose Pro
               </Button>
             </div>
           </div>
           
-          {/* Pro Max Plan */}
-          <div className="bg-background rounded-lg overflow-hidden shadow-lg border border-border">
+          {/* Pro Max Plan - Featured */}
+          <div className="bg-background rounded-lg overflow-hidden shadow-xl border border-brand-purple/30 relative transform scale-105 sm:scale-105 z-10">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-purple to-brand-blue"></div>
+            <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-brand-purple to-brand-blue text-white px-4 py-1 rounded-full text-sm font-medium">
+              Most Popular
+            </div>
+            
             <div className="p-6 border-b border-border">
               <h3 className="text-2xl font-semibold">Pro Max</h3>
               <div className="mt-4 flex items-baseline">
@@ -149,7 +149,7 @@ const PricingPlans = () => {
                 </li>
               </ul>
               
-              <Button className="w-full mt-8 bg-gradient-to-r from-brand-blue to-brand-teal">
+              <Button className="w-full mt-8 bg-gradient-to-r from-brand-purple to-brand-blue">
                 Choose Pro Max
               </Button>
             </div>
