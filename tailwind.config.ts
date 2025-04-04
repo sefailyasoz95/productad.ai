@@ -67,7 +67,6 @@ export default {
 				brand: {
 					purple: '#8B5CF6', // Main purple
 					blue: '#3B82F6',   // Secondary blue
-					teal: '#06B6D4',   // Accent teal
 				}
 			},
 			borderRadius: {
@@ -114,7 +113,7 @@ export default {
 				'gradient-shift': 'gradient-shift 15s ease infinite'
 			},
 			backgroundImage: {
-				'hero-gradient': 'linear-gradient(to right, #8B5CF6, #3B82F6, #06B6D4)',
+				'hero-gradient': 'linear-gradient(to right, #8B5CF6, #3B82F6)',
 			}
 		}
 	},
