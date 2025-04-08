@@ -49,23 +49,24 @@ const Hero = () => {
   }, [currentVideoIndex]);
 
   return (
-    <section className="relative w-full h-screen overflow-hidden">
+    <section className="relative w-full min-h-screen lg:h-screen overflow-hidden">
       {/* Full-screen background video */}
       <div className="absolute inset-0 w-full h-full">
         <video
           ref={videoRef}
           src={demoVideos[currentVideoIndex]}
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-[80%] lg:h-full object-contain lg:object-cover"
           autoPlay
           muted
+          playsInline
           onEnded={handleVideoEnd}
         />
         {/* Dark overlay to improve text readability */}
-        <div className="absolute inset-0 bg-black/50"></div>
+        <div className="absolute inset-0 bg-black/25"></div>
       </div>
 
       {/* Navigation arrows */}
-      <div className="absolute inset-y-0 left-4 flex items-center z-20">
+      <div className="absolute top-1/2 left-4 flex items-center z-20">
         <button
           onClick={() => navigateVideo("prev")}
           className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors"
@@ -75,7 +76,7 @@ const Hero = () => {
         </button>
       </div>
 
-      <div className="absolute inset-y-0 right-4 flex items-center z-20">
+      <div className="absolute top-1/2 right-4 flex items-center z-20">
         <button
           onClick={() => navigateVideo("next")}
           className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors"
@@ -101,15 +102,15 @@ const Hero = () => {
       </div>
 
       {/* Content overlay */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full max-w-6xl mx-auto px-6 text-white">
+      <div className="relative z-10 flex flex-col items-center justify-center lg:h-full mt-24 lg:mt-0 max-w-6xl mx-auto px-6 text-white">
         <div className="text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight leading-tight">
+          <h1 className="text-3xl md:text-6xl font-bold lg:mb-6">
             <span className="gradient-text">Create. Influence. Sell.</span>
             <br />
             Instantly.
           </h1>
 
-          <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-white/80">
+          <p className="text-lg md:text-xl max-w-3xl mx-auto font-medium lg:mb-8 mb-4 text-white/80">
             Generate stunning promotional content for your products using AI.
             From images to videos with virtual influencers - all in seconds.
           </p>
@@ -145,7 +146,7 @@ const Hero = () => {
         </div>
 
         {/* Features preview */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-64 lg:mt-16">
           <div className="backdrop-blur-md bg-white/10 rounded-lg p-6 text-center flex flex-col items-center transform transition-all hover:scale-105">
             <div className="w-12 h-12 rounded-full bg-brand-purple/30 flex items-center justify-center mb-4">
               <ImageIcon className="w-6 h-6 text-white" />

@@ -128,7 +128,15 @@ const Footer = () => {
 
         <div className="border-t border-border mt-12 pt-8 text-center text-muted-foreground">
           <p>
-            &copy; {new Date().getFullYear()} ProductAd. All rights reserved.
+            &copy; {new Date().getFullYear()}{" "}
+            <a
+              className="font-bold"
+              href="https://softwarify.co/"
+              target="_blank"
+            >
+              Softwarify
+            </a>
+            . All rights reserved.
           </p>
         </div>
       </div>
