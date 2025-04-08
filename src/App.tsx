@@ -12,13 +12,13 @@ import GenerateVoice from "./pages/GenerateVoice";
 import Influencers from "./pages/Influencers";
 import Settings from "./pages/Settings";
 import Socials from "./pages/Socials";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { initFirebase } from "./lib/firebase";
 
 const queryClient = new QueryClient();
 
 const App = () => {
-  useEffect(() => {
+  useLayoutEffect(() => {
     initFirebase();
   }, []);
 
