@@ -1,127 +1,184 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, ImageIcon, Video, Mic } from "lucide-react";
-import { useNavigate } from "react-router-dom";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import SignInDialog from "@/components/SignInDialog";
+import {
+  ArrowRight,
+  ImageIcon,
+  Video,
+  Mic,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+// import { useNavigate } from "react-router-dom";
 import { Input } from "./ui/input";
 import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
+
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const Hero = () => {
-	const navigate = useNavigate();
-	const [email, setEmail] = React.useState("");
-	const handleSignIn = () => {
-		navigate("/dashboard");
-	};
+  //   const navigate = useNavigate();
+  const [email, setEmail] = React.useState("");
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const videoRef = useRef(null);
 
-	return (
-		<section className='pt-32 pb-20 md:pt-40 md:pb-32 px-6 relative overflow-hidden'>
-			<div className='absolute inset-0 bg-gradient-to-br from-brand-purple/10 via-brand-blue/5 to-brand-purple/10 -z-10 animate-gradient-shift'></div>
+  // Demo videos - add your video paths here
+  const demoVideos = ["/beauty_product.mp4", "/stanley_product.mp4"];
 
-			{/* Decorative elements with animation */}
-			<div className='absolute top-1/4 right-[10%] w-64 h-64 bg-brand-purple/20 rounded-full blur-3xl -z-10 animate-pulse'></div>
-			<div className='absolute bottom-1/4 left-[10%] w-64 h-64 bg-brand-blue/20 rounded-full blur-3xl -z-10 animate-pulse'></div>
+  // Navigate to next video when current one ends
+  const handleVideoEnd = () => {
+    setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % demoVideos.length);
+  };
 
-			<div className='container mx-auto max-w-6xl'>
-				<div className='text-center mb-12'>
-					<h1 className='text-4xl md:text-6xl font-bold mb-6 tracking-tight leading-tight opacity-0 animate-fade-in'>
-						<span className='gradient-text'>Create. Influence. Sell.</span>
-						<br />
-						Instantly.
-					</h1>
+  // Handle manual navigation
+  const navigateVideo = (direction) => {
+    if (direction === "next") {
+      setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % demoVideos.length);
+    } else {
+      setCurrentVideoIndex((prevIndex) =>
+        prevIndex === 0 ? demoVideos.length - 1 : prevIndex - 1
+      );
+    }
+  };
 
-					<p
-						className='text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8 opacity-0 animate-fade-in'
-						style={{ animationDelay: "0.3s" }}>
-						Generate stunning promotional content for your products using AI. From images to videos with virtual
-						influencers - all in seconds.
-					</p>
+  // Reset video playing when index changes
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.load();
+      videoRef.current.play().catch((e) => console.log("Video play error:", e));
+    }
+  }, [currentVideoIndex]);
 
-					{/* <div className='flex justify-center opacity-0 animate-fade-in' style={{ animationDelay: "0.5s" }}>
-						 <Dialog>
-							<DialogTrigger asChild>
-								<Button
-									size='lg'
-									className='bg-gradient-to-r from-brand-purple to-brand-blue hover:opacity-90 transition-all hover:scale-105'>
-									Get Started <ArrowRight size={18} className='ml-2' />
-								</Button>
-							</DialogTrigger>
-							<DialogContent className='sm:max-w-md'>
-								<DialogHeader>
-									<DialogTitle className='text-xl text-center'>Sign in to ProductAd</DialogTitle>
-								</DialogHeader>
-								<SignInDialog onSignIn={handleSignIn} />
-							</DialogContent>
-						</Dialog> 
-					</div> */}
-					<div
-						className='flex flex-col items-center justify-center opacity-0 gap-3 animate-fade-in'
-						style={{ animationDelay: "0.5s" }}>
-						<Input
-							placeholder='enter your email'
-							className='w-1/4'
-							onChange={(e) => {
-								setEmail(e.currentTarget.value);
-							}}
-							value={email}
-							type='email'
-						/>
-						<Button
-							size='lg'
-							disabled={!email}
-							className='bg-gradient-to-r from-brand-purple to-brand-blue hover:opacity-90 transition-all hover:scale-105'
-							onClick={async () => {
-								const isValidEmail = emailRegex.test(email);
-								if (isValidEmail) {
-									await supabase.from("waitlist").insert({ email }).select();
-									toast.success("You have been added to the waitlist!");
-									setEmail("");
-								} else {
-									toast.error("Please enter a valid email address.");
-								}
-							}}>
-							Join the waitlist <ArrowRight size={18} className='ml-2' />
-						</Button>
-					</div>
-				</div>
+  return (
+    <section className="relative w-full h-screen overflow-hidden">
+      {/* Full-screen background video */}
+      <div className="absolute inset-0 w-full h-full">
+        <video
+          ref={videoRef}
+          src={demoVideos[currentVideoIndex]}
+          className="absolute inset-0 w-full h-full object-cover"
+          autoPlay
+          muted
+          onEnded={handleVideoEnd}
+        />
+        {/* Dark overlay to improve text readability */}
+        <div className="absolute inset-0 bg-black/50"></div>
+      </div>
 
-				{/* Features preview with animation */}
-				<div className='grid grid-cols-1 md:grid-cols-3 gap-6 mt-16'>
-					<div
-						className='glass-card dark:glass-card-dark rounded-lg p-6 text-center flex flex-col items-center transform transition-all hover:scale-105 opacity-0 animate-fade-in'
-						style={{ animationDelay: "0.6s" }}>
-						<div className='w-12 h-12 rounded-full bg-brand-purple/20 flex items-center justify-center mb-4'>
-							<ImageIcon className='w-6 h-6 text-brand-purple' />
-						</div>
-						<h3 className='font-semibold text-xl mb-2'>AI Images</h3>
-						<p className='text-muted-foreground'>Generate stunning product showcases with our advanced AI</p>
-					</div>
+      {/* Navigation arrows */}
+      <div className="absolute inset-y-0 left-4 flex items-center z-20">
+        <button
+          onClick={() => navigateVideo("prev")}
+          className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+          aria-label="Previous video"
+        >
+          <ChevronLeft size={24} />
+        </button>
+      </div>
 
-					<div
-						className='glass-card dark:glass-card-dark rounded-lg p-6 text-center flex flex-col items-center transform transition-all hover:scale-105 opacity-0 animate-fade-in'
-						style={{ animationDelay: "0.7s" }}>
-						<div className='w-12 h-12 rounded-full bg-brand-blue/20 flex items-center justify-center mb-4'>
-							<Video className='w-6 h-6 text-brand-blue' />
-						</div>
-						<h3 className='font-semibold text-xl mb-2'>AI Videos</h3>
-						<p className='text-muted-foreground'>Create engaging videos with virtual influencers</p>
-					</div>
+      <div className="absolute inset-y-0 right-4 flex items-center z-20">
+        <button
+          onClick={() => navigateVideo("next")}
+          className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center text-white hover:bg-white/30 transition-colors"
+          aria-label="Next video"
+        >
+          <ChevronRight size={24} />
+        </button>
+      </div>
 
-					<div
-						className='glass-card dark:glass-card-dark rounded-lg p-6 text-center flex flex-col items-center transform transition-all hover:scale-105 opacity-0 animate-fade-in'
-						style={{ animationDelay: "0.8s" }}>
-						<div className='w-12 h-12 rounded-full bg-brand-purple/20 flex items-center justify-center mb-4'>
-							<Mic className='w-6 h-6 text-brand-purple' />
-						</div>
-						<h3 className='font-semibold text-xl mb-2'>Voice Synthesis</h3>
-						<p className='text-muted-foreground'>Add lifelike voiceovers to your marketing content</p>
-					</div>
-				</div>
-			</div>
-		</section>
-	);
+      {/* Video indicator dots */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+        {demoVideos.map((_, index) => (
+          <div
+            key={index}
+            className={`w-2 h-2 rounded-full cursor-pointer transition-all ${
+              index === currentVideoIndex
+                ? "w-6 bg-brand-purple"
+                : "bg-white/60"
+            }`}
+            onClick={() => setCurrentVideoIndex(index)}
+          />
+        ))}
+      </div>
+
+      {/* Content overlay */}
+      <div className="relative z-10 flex flex-col items-center justify-center h-full max-w-6xl mx-auto px-6 text-white">
+        <div className="text-center">
+          <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight leading-tight">
+            <span className="gradient-text">Create. Influence. Sell.</span>
+            <br />
+            Instantly.
+          </h1>
+
+          <p className="text-lg md:text-xl max-w-3xl mx-auto mb-8 text-white/80">
+            Generate stunning promotional content for your products using AI.
+            From images to videos with virtual influencers - all in seconds.
+          </p>
+
+          <div className="flex flex-col items-center justify-center gap-3">
+            <Input
+              placeholder="enter your email"
+              className="w-full md:w-1/3 bg-white/10 backdrop-blur-md border-white/30 text-white placeholder:text-white/50"
+              onChange={(e) => {
+                setEmail(e.currentTarget.value);
+              }}
+              value={email}
+              type="email"
+            />
+            <Button
+              size="lg"
+              disabled={!email}
+              className="bg-gradient-to-r from-brand-purple to-brand-blue hover:opacity-90 transition-all hover:scale-105"
+              onClick={async () => {
+                const isValidEmail = emailRegex.test(email);
+                if (isValidEmail) {
+                  await supabase.from("waitlist").insert({ email }).select();
+                  toast.success("You have been added to the waitlist!");
+                  setEmail("");
+                } else {
+                  toast.error("Please enter a valid email address.");
+                }
+              }}
+            >
+              Join the waitlist <ArrowRight size={18} className="ml-2" />
+            </Button>
+          </div>
+        </div>
+
+        {/* Features preview */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+          <div className="backdrop-blur-md bg-white/10 rounded-lg p-6 text-center flex flex-col items-center transform transition-all hover:scale-105">
+            <div className="w-12 h-12 rounded-full bg-brand-purple/30 flex items-center justify-center mb-4">
+              <ImageIcon className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="font-semibold text-xl mb-2">AI Images</h3>
+            <p className="text-white/80">
+              Generate stunning product showcases with our advanced AI
+            </p>
+          </div>
+
+          <div className="backdrop-blur-md bg-white/10 rounded-lg p-6 text-center flex flex-col items-center transform transition-all hover:scale-105">
+            <div className="w-12 h-12 rounded-full bg-brand-blue/30 flex items-center justify-center mb-4">
+              <Video className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="font-semibold text-xl mb-2">AI Videos</h3>
+            <p className="text-white/80">
+              Create engaging videos with or without virtual influencers
+            </p>
+          </div>
+
+          <div className="backdrop-blur-md bg-white/10 rounded-lg p-6 text-center flex flex-col items-center transform transition-all hover:scale-105">
+            <div className="w-12 h-12 rounded-full bg-brand-purple/30 flex items-center justify-center mb-4">
+              <Mic className="w-6 h-6 text-white" />
+            </div>
+            <h3 className="font-semibold text-xl mb-2">Voice Synthesis</h3>
+            <p className="text-white/80">
+              Add lifelike voiceovers or let our influencers talk for you
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default Hero;
