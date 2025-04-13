@@ -15,10 +15,10 @@ const SignInDialog = ({ onSignIn }: SignInDialogProps) => {
 				<span>Sign in with Google</span>
 			</Button>
 
-			<Button variant='outline' className='flex items-center justify-center gap-2 w-full py-6' onClick={onSignIn}>
+			{/* <Button variant='outline' className='flex items-center justify-center gap-2 w-full py-6' onClick={onSignIn}>
 				<AiFillApple className='h-5 w-5' />
 				<span>Sign in with Apple</span>
-			</Button>
+			</Button> */}
 
 			<div className='relative my-2'>
 				<div className='absolute inset-0 flex items-center'>

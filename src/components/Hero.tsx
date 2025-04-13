@@ -7,11 +7,13 @@ import { toast } from "sonner";
 import { supabase } from "@/lib/supabase";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
 import SignInDialog from "./SignInDialog";
+import { useAppDispatch } from "@/redux/store";
+import { signInWithGoogle } from "@/redux/actions";
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 const Hero = () => {
-	//   const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 	const [email, setEmail] = React.useState("");
 	const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 	const videoRef = useRef(null);
@@ -33,7 +35,9 @@ const Hero = () => {
 		}
 	};
 
-	const handleSignIn = () => {};
+	const handleSignIn = () => {
+		dispatch(signInWithGoogle());
+	};
 
 	// Reset video playing when index changes
 	useEffect(() => {
