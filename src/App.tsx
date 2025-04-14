@@ -18,6 +18,9 @@ import { useAppDispatch } from "./redux/store";
 import AuthCheck from "./components/AuthCheck";
 import { supabase } from "./lib/supabase";
 import { getCurrentUser } from "./redux/actions";
+import DashboardLayout from "./components/DashboardLayout";
+import PaymentSuccess from "./pages/PaymentSuccess";
+import PaymentCanceled from "./pages/PaymentCanceled";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +58,8 @@ const App = () => {
             <Route path="/influencers" element={<Influencers />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/socials" element={<Socials />} />
+            <Route path="/success" element={<PaymentSuccess />} />
+            <Route path="/canceled" element={<PaymentCanceled />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

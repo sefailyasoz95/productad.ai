@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -15,8 +15,9 @@ import {
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import HelpDialog from "./HelpDialog";
-import { useAppDispatch } from "@/redux/store";
-import { signOut } from "@/redux/actions";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { getProducts, signOut } from "@/redux/actions";
+import SubscriptionModal from "./SubscriptionModal";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -24,7 +25,7 @@ interface DashboardLayoutProps {
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
   const location = useLocation();
-
+  const user = useAppSelector((state) => state.global.user);
   const navItems = [
     { icon: LayoutDashboard, label: "Dashboard", path: "/dashboard" },
     { icon: ImageIcon, label: "Images", path: "/generate/image" },
@@ -38,6 +39,10 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     },
   ];
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
+
   const handleLogout = () => {
     dispatch(signOut());
   };
@@ -46,10 +51,8 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       {navItems.map((item) => (
         <Button
           key={item.path}
-          variant={location.pathname === item.path ? "secondary" : "outline"}
-          className={`w-full justify-start ${
-            location.pathname === item.path ? "bg-secondary" : ""
-          }`}
+          variant={location.pathname === item.path ? "default" : "outline"}
+          className={`w-full justify-start`}
           asChild
         >
           <Link to={item.path}>
@@ -60,9 +63,11 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       ))}
     </div>
   );
+  console.log("user: ", user);
 
   return (
     <div className="min-h-screen flex">
+      {!user?.isSubscribed && <SubscriptionModal />}
       {/* Mobile Menu Button */}
       <div className="md:hidden fixed top-4 left-4 z-50">
         <Sheet>

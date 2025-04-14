@@ -8,10 +8,6 @@ import {
   ChevronLeft,
   ChevronRight,
 } from "lucide-react";
-// import { useNavigate } from "react-router-dom";
-import { Input } from "./ui/input";
-import { toast } from "sonner";
-import { supabase } from "@/lib/supabase";
 import {
   Dialog,
   DialogContent,

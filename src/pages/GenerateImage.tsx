@@ -1,15 +1,19 @@
-
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Upload, RefreshCw, Download, Image, XCircle } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
-import DashboardLayout from '@/components/DashboardLayout';
+import DashboardLayout from "@/components/DashboardLayout";
 
 const GenerateImage = () => {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -31,9 +35,9 @@ const GenerateImage = () => {
   const handleGenerate = () => {
     toast({
       title: "Generating image...",
-      description: "Please wait while we create your marketing image"
+      description: "Please wait while we create your marketing image",
     });
-    
+
     setIsGenerating(true);
     // Simulate API call with timeout
     setTimeout(() => {
@@ -69,31 +73,36 @@ const GenerateImage = () => {
                   <Label htmlFor="product-image">Product Image</Label>
                   {uploadedImage ? (
                     <div className="relative aspect-square rounded-md overflow-hidden border border-border">
-                      <img 
-                        src={uploadedImage} 
-                        alt="Uploaded product" 
+                      <img
+                        src={uploadedImage}
+                        alt="Uploaded product"
                         className="w-full h-full object-cover"
                       />
-                      <Button 
-                        size="icon" 
-                        variant="destructive" 
-                        className="absolute top-2 right-2" 
+                      <Button
+                        size="icon"
+                        variant="destructive"
+                        className="absolute top-2 right-2"
                         onClick={() => setUploadedImage(null)}
                       >
                         <XCircle className="h-4 w-4" />
                       </Button>
                     </div>
                   ) : (
-                    <div className="border-2 border-dashed border-muted-foreground/20 rounded-md p-8 text-center cursor-pointer hover:bg-muted/50 transition-all" onClick={() => document.getElementById('product-image')?.click()}>
+                    <div
+                      className="border-2 border-dashed border-muted-foreground/20 rounded-md p-8 text-center cursor-pointer hover:bg-muted/50 transition-all"
+                      onClick={() =>
+                        document.getElementById("product-image")?.click()
+                      }
+                    >
                       <Upload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
                       <p className="text-sm text-muted-foreground">
                         Click to upload or drag and drop your product image
                       </p>
-                      <Input 
-                        id="product-image" 
-                        type="file" 
-                        accept="image/*" 
-                        className="hidden" 
+                      <Input
+                        id="product-image"
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
                         onChange={handleImageUpload}
                       />
                     </div>
@@ -102,24 +111,31 @@ const GenerateImage = () => {
 
                 <div className="space-y-2">
                   <Label htmlFor="product-name">Product Name</Label>
-                  <Input id="product-name" placeholder="e.g. Smart Water Bottle" />
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="product-description">Product Description</Label>
-                  <Textarea 
-                    id="product-description" 
-                    placeholder="Briefly describe your product..."
-                    rows={3} 
+                  <Input
+                    id="product-name"
+                    placeholder="e.g. Smart Water Bottle"
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="scene-description">Marketing Scene Description</Label>
-                  <Textarea 
-                    id="scene-description" 
+                  <Label htmlFor="product-description">
+                    Product Description
+                  </Label>
+                  <Textarea
+                    id="product-description"
+                    placeholder="Briefly describe your product..."
+                    rows={3}
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="scene-description">
+                    Marketing Scene Description
+                  </Label>
+                  <Textarea
+                    id="scene-description"
                     placeholder="Describe how you want the product to be showcased..."
-                    rows={4} 
+                    rows={4}
                   />
                 </div>
 
@@ -139,7 +155,7 @@ const GenerateImage = () => {
                   </Select>
                 </div>
 
-                <Button 
+                <Button
                   className="w-full bg-gradient-to-r from-brand-purple to-brand-teal"
                   onClick={handleGenerate}
                   disabled={!uploadedImage || isGenerating}
@@ -164,13 +180,13 @@ const GenerateImage = () => {
             <Card className="h-full">
               <CardContent className="p-6 h-full flex flex-col">
                 <h2 className="text-xl font-semibold mb-4">Result</h2>
-                
+
                 {generatedImage ? (
                   <div className="flex-1 flex flex-col">
                     <div className="relative flex-1 rounded-md overflow-hidden border border-border bg-muted/20">
-                      <img 
-                        src={generatedImage} 
-                        alt="Generated marketing" 
+                      <img
+                        src={generatedImage}
+                        alt="Generated marketing"
                         className="w-full h-full object-contain"
                       />
                     </div>

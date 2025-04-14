@@ -1,7 +1,12 @@
 import { InitialState } from "@/lib/types";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { getCurrentUser, signInWithGoogle, signOut } from "./actions";
-import { supabase } from "@/lib/supabase";
+import {
+  createCheckoutSession,
+  getCurrentUser,
+  getProducts,
+  signInWithGoogle,
+  signOut,
+} from "./actions";
 
 export const initialState: InitialState = {
   error: false,
@@ -10,6 +15,8 @@ export const initialState: InitialState = {
   loading: false,
   isAuthenticated: undefined,
   user: undefined,
+  products: [],
+  checkoutUrl: undefined,
 };
 
 export const reducer = createSlice({
@@ -39,6 +46,24 @@ export const reducer = createSlice({
         if (action.payload.success) {
           state.isAuthenticated = true;
           state.user = action.payload.data;
+        }
+        state.loading = false;
+      })
+      .addCase(getProducts.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getProducts.fulfilled, (state, action) => {
+        if (action.payload.success) {
+          state.products = action.payload.data;
+        }
+        state.loading = false;
+      })
+      .addCase(createCheckoutSession.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createCheckoutSession.fulfilled, (state, action) => {
+        if (action.payload.success) {
+          state.checkoutUrl = action.payload.data;
         }
         state.loading = false;
       });
