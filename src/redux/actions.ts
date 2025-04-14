@@ -215,3 +215,62 @@ export const checkSessionId = async (sessionId: string) => {
     }
   } catch (error) {}
 };
+// {
+//   "action": "next",
+//   "messages": [
+//       {
+//           "id": "d575ab56-ee0c-49bb-9622-291776dd2830",
+//           "author": {
+//               "role": "user"
+//           },
+//           "create_time": 1744638214.38,
+//           "content": {
+//               "content_type": "text",
+//               "parts": [
+//                   "Görsel oluştur a commercial photoshoot quality of Starbucks bean coffee (Espresso dark roast)"
+//               ]
+//           },
+//           "metadata": {
+//               "selected_github_repos": [],
+//               "system_hints": [
+//                   "picture_v2"
+//               ],
+//               "serialization_metadata": {
+//                   "custom_symbol_offsets": [
+//                       {
+//                           "symbol": "systemHint",
+//                           "startIndex": 0,
+//                           "endIndex": 15
+//                       }
+//                   ]
+//               },
+//               "dictation": false
+//           }
+//       }
+//   ],
+//   "parent_message_id": "client-created-root",
+//   "model": "auto",
+//   "timezone_offset_min": -180,
+//   "timezone": "Europe/Istanbul",
+//   "conversation_mode": {
+//       "kind": "primary_assistant"
+//   },
+//   "enable_message_followups": true,
+//   "system_hints": [
+//       "picture_v2"
+//   ],
+//   "supports_buffering": true,
+//   "supported_encodings": [
+//       "v1"
+//   ],
+//   "client_contextual_info": {
+//       "is_dark_mode": true,
+//       "time_since_loaded": 61,
+//       "page_height": 1073,
+//       "page_width": 1069,
+//       "pixel_ratio": 1,
+//       "screen_height": 1200,
+//       "screen_width": 1920
+//   },
+//   "paragen_cot_summary_display_override": "allow"
+// }

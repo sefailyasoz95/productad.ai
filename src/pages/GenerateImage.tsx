@@ -70,6 +70,23 @@ const GenerateImage = () => {
             <Card>
               <CardContent className="p-6 space-y-4">
                 <div className="space-y-2">
+                  <Label htmlFor="style">AI Modal</Label>
+                  <Select defaultValue="gemini">
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select style" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem disabled value="chatgpt">
+                        ChatGPT 4o <small className="italic">coming soon</small>
+                      </SelectItem>
+                      {/* <SelectItem value="midjourney">Midjourney v7</SelectItem> */}
+                      <SelectItem value="gemini">
+                        Google Gemini 2.0 Flash
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
                   <Label htmlFor="product-image">Product Image</Label>
                   {uploadedImage ? (
                     <div className="relative aspect-square rounded-md overflow-hidden border border-border">
