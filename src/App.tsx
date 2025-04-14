@@ -14,42 +14,53 @@ import Settings from "./pages/Settings";
 import Socials from "./pages/Socials";
 import { useEffect, useLayoutEffect } from "react";
 import { initFirebase } from "./lib/firebase";
-import { Provider } from "react-redux";
-import store from "./redux/store";
+import { useAppDispatch } from "./redux/store";
 import AuthCheck from "./components/AuthCheck";
+import { supabase } from "./lib/supabase";
+import { getCurrentUser } from "./redux/actions";
 
 const queryClient = new QueryClient();
 
 const App = () => {
-	useLayoutEffect(() => {
-		initFirebase();
-	}, []);
+  const dispatch = useAppDispatch();
 
-	return (
-		<Provider store={store}>
-			<QueryClientProvider client={queryClient}>
-				<TooltipProvider>
-					<Toaster />
-					<Sonner />
-					<BrowserRouter>
-						<AuthCheck />
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session) dispatch(getCurrentUser());
+    });
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session) dispatch(getCurrentUser());
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+  useLayoutEffect(() => {
+    initFirebase();
+  }, []);
 
-						<Routes>
-							<Route path='/' element={<Index />} />
-							<Route path='/dashboard' element={<Dashboard />} />
-							<Route path='/generate/image' element={<GenerateImage />} />
-							<Route path='/generate/video' element={<GenerateVideo />} />
-							<Route path='/generate/voice' element={<GenerateVoice />} />
-							<Route path='/influencers' element={<Influencers />} />
-							<Route path='/settings' element={<Settings />} />
-							<Route path='/socials' element={<Socials />} />
-							<Route path='*' element={<NotFound />} />
-						</Routes>
-					</BrowserRouter>
-				</TooltipProvider>
-			</QueryClientProvider>
-		</Provider>
-	);
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <AuthCheck />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/generate/image" element={<GenerateImage />} />
+            <Route path="/generate/video" element={<GenerateVideo />} />
+            <Route path="/generate/voice" element={<GenerateVoice />} />
+            <Route path="/influencers" element={<Influencers />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/socials" element={<Socials />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
 };
 
 export default App;
