@@ -20,51 +20,59 @@ import { supabase } from "./lib/supabase";
 import { getCurrentUser } from "./redux/actions";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCanceled from "./pages/PaymentCanceled";
+import CreateInfluencer from "./pages/CreateInfluencer";
 
 const queryClient = new QueryClient();
 
 const App = () => {
-  const dispatch = useAppDispatch();
+	const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) dispatch(getCurrentUser());
-    });
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session) dispatch(getCurrentUser());
-    });
-    return () => subscription.unsubscribe();
-  }, []);
-  useLayoutEffect(() => {
-    initFirebase();
-  }, []);
+	useEffect(() => {
+		(async function x() {
+			await supabase.auth.getSession().then(({ data: { session } }) => {
+				console.log("session: ", session);
 
-  return (
-    <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <AuthCheck />
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/generate/image" element={<GenerateImage />} />
-            <Route path="/generate/video" element={<GenerateVideo />} />
-            <Route path="/generate/voice" element={<GenerateVoice />} />
-            <Route path="/influencers" element={<Influencers />} />
-            <Route path="/settings" element={<Settings />} />
-            <Route path="/socials" element={<Socials />} />
-            <Route path="/success" element={<PaymentSuccess />} />
-            <Route path="/canceled" element={<PaymentCanceled />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </QueryClientProvider>
-  );
+				if (session) dispatch(getCurrentUser());
+			});
+		})();
+		const {
+			data: { subscription },
+		} = supabase.auth.onAuthStateChange((_event, session) => {
+			console.log("session111: ", session);
+
+			if (session) dispatch(getCurrentUser());
+		});
+		return () => subscription.unsubscribe();
+	}, []);
+	useLayoutEffect(() => {
+		initFirebase();
+	}, []);
+
+	return (
+		<QueryClientProvider client={queryClient}>
+			<TooltipProvider>
+				<Toaster />
+				<Sonner />
+				<BrowserRouter>
+					<AuthCheck />
+					<Routes>
+						<Route path='/' element={<Index />} />
+						<Route path='/dashboard' element={<Dashboard />} />
+						<Route path='/generate/image' element={<GenerateImage />} />
+						<Route path='/generate/video' element={<GenerateVideo />} />
+						<Route path='/generate/voice' element={<GenerateVoice />} />
+						<Route path='/influencers' element={<Influencers />} />
+						<Route path='/settings' element={<Settings />} />
+						<Route path='/socials' element={<Socials />} />
+						<Route path='/success' element={<PaymentSuccess />} />
+						<Route path='/canceled' element={<PaymentCanceled />} />
+						<Route path='/admin/create-influencer' element={<CreateInfluencer />} />
+						<Route path='*' element={<NotFound />} />
+					</Routes>
+				</BrowserRouter>
+			</TooltipProvider>
+		</QueryClientProvider>
+	);
 };
 
 export default App;

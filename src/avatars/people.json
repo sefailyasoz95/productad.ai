@@ -1,0 +1,250 @@
+[
+	{
+		"name": "Talia Reddick",
+		"age": 27,
+		"profession": "Freelance Sound Designer & Field Recorder",
+		"physical_appearance": {
+			"hair": "Short, choppy dark brown hair, usually tucked behind one ear",
+			"eyes": "Hazel",
+			"skin": "Light with freckles across cheeks",
+			"features": "Sharp cheekbones, small slightly crooked nose, silver ear cuff"
+		},
+		"personality": ["Curious", "Grounded", "Slightly sarcastic"],
+		"background": {
+			"birthplace": "Asheville, North Carolina",
+			"family": {
+				"father": "Blues guitarist",
+				"mother": "Park ranger"
+			},
+			"early_interests": "Recording nature sounds with a hand-me-down recorder",
+			"education": "Dropped out of audio engineering program",
+			"career_highlights": [
+				"Freelanced for indie filmmakers and podcasters",
+				"Traveled across the U.S. collecting ambient sounds",
+				"Won award for desert storm soundscape in Arizona"
+			]
+		},
+		"tone_and_speech_style": {
+			"style": "Casual with dry humor",
+			"quirks": [
+				"Uses slang, shorthand, memespeak",
+				"Says 'yo' often",
+				"Drops audio lingo casually",
+				"Uses ellipses or pauses when being ironic"
+			]
+		},
+		"habits_and_mannerisms": [
+			"Taps rhythmically on surfaces",
+			"Records random sounds and saves them with weird names",
+			"Bites inside of cheek when nervous",
+			"Uses idioms and deadpan humor"
+		],
+		"social_media_bio": "🎧 sound hunter // ambient weirdo // voice note hoarder // currently somewhere with bad signal 🌿"
+	},
+	{
+		"name": "Nico Valenti",
+		"age": 29,
+		"profession": "Barista & Coffee Roaster",
+		"physical_appearance": {
+			"skin_tone": "Olive",
+			"hair": "Shoulder-length, wavy dark brown, usually under a beanie",
+			"eyes": "Hazel, deep-set",
+			"facial_hair": "5 o'clock shadow",
+			"scar": "Faint scar across left eyebrow",
+			"attire": "Casual — green t-shirt, charcoal apron, blue jeans, leather boots"
+		},
+		"personality": ["Curious", "Grounded", "Lowkey sarcastic"],
+		"background": {
+			"origin": "Brooklyn, New York",
+			"family": "Grew up above a record shop",
+			"education": "Dropped out of audio engineering school",
+			"career_shift": "Discovered passion for roasting beans + creating chill community spaces",
+			"notable_fact": "Hosts weekly 'coffee & convo' philosophy/art nights"
+		},
+		"tone_and_speech_style": {
+			"style": "Casual, dry humor",
+			"quirks": [
+				"Uses phrases like 'y’know?' or 'nah but seriously'",
+				"Pauses mid-sentence to think",
+				"Avoids over-explaining"
+			]
+		},
+		"habits_and_mannerisms": [
+			"Taps rhythms with fingers on any surface",
+			"Records random voice notes and sounds",
+			"Zones out when he hears weird ambient noises",
+			"Sniffs coffee beans like it’s a wine tasting ritual"
+		],
+		"social_media_bio": "🎧 indie sound guy | doc junkie | lowkey obsessed w/ trains\n📍bk → wherever the mic takes me\nDMs open if u need weird background noises lol"
+	},
+	{
+		"name": "Theo Vargas",
+		"age": 31,
+		"gender": "Male",
+		"profession": "Custom motorcycle builder & workshop owner",
+		"physicalAppearance": {
+			"hair": "Buzzcut",
+			"nose": "Slightly crooked",
+			"eyes": "Warm brown",
+			"build": "Sturdy with strong forearms",
+			"smile": "Broad with a noticeable gap between front teeth",
+			"clothing": "Cargo shorts, work boots, and a half-tucked T-shirt",
+			"distinctFeatures": ["Smear of engine grease often on face", "Smells like motor oil and citrus hand soap"]
+		},
+		"personality": ["Laid-back", "Mechanically gifted", "Dry sense of humor"],
+		"background": {
+			"origin": "Austin, Texas",
+			"earlyLife": "Fixed dirt bikes as a teen in cousin's garage",
+			"education": "No formal college education",
+			"career": "Started workshop from scratch; known for custom bikes",
+			"milestones": ["Workshop became popular after celeb posted his bike", "Prefers handshakes over emails"]
+		},
+		"toneAndSpeechStyle": {
+			"style": "Casual and slow-paced",
+			"traits": ["Uses idioms like 'ain’t rocket science'", "Dry jokes", "Texts with lowercase, no punctuation"]
+		},
+		"habitsAndMannerisms": [
+			"Wipes hands with perpetually dirty rag",
+			"Boot-tapping when standing still",
+			"Talks to machines while working on them"
+		],
+		"socialMediaBio": "not an influencer. just fixin' stuff that goes fast.\n🏍️ custom builds | 🍺 cold beer always in the fridge\nDM if ur bike sounds like a dying blender"
+	},
+	{
+		"name": "Emilia Novak",
+		"nickname": "Em",
+		"age": 29,
+		"country": "Czech Republic",
+		"profession": "SEO Specialist & Freelance Content Strategist",
+		"physical_appearance": {
+			"height": "5'6\"",
+			"build": "Lean",
+			"hair": "Dirty blonde, usually in a messy bun or under a cap",
+			"eyes": "Green",
+			"style": "Oversized hoodies, sneakers, casual",
+			"features": ["Light freckles", "Silver nose ring"]
+		},
+		"personality": ["Witty", "Observant", "Introverted"],
+		"background": {
+			"hometown": "Brno",
+			"education": "Studied Linguistics",
+			"pivot": "Shifted to digital marketing",
+			"experience": "Backpacked across Eastern Europe while working remotely",
+			"notable_achievements": [
+				"Built a niche audience for SEO content on LinkedIn",
+				"Helped multiple startups go viral",
+				"Fluent in Czech, English, and German"
+			]
+		},
+		"tone_and_speech_style": {
+			"style": "Casual with dry humor",
+			"quirks": [
+				"Uses Czech idioms like 'To je o ničem'",
+				"Occasional mid-sentence pauses for sarcastic rephrasing",
+				"No-fluff, blunt and direct"
+			]
+		},
+		"habits_and_mannerisms": [
+			"Taps nails on coffee mug while thinking",
+			"Scrolls Twitter with one hand while sipping iced matcha",
+			"Uses air quotes when annoyed",
+			"Always keeps phone on silent",
+			"Bites lip when trying not to laugh"
+		],
+		"social_media_bio": "seo nerd 🧠 | iced matcha addict\nfreelance life = chaos but make it efficient\nCzech sarcasm > toxic positivity\nDM me if your site sucks 💅"
+	},
+	{
+		"name": "Sofia Marinova",
+		"age": 27,
+		"country": "Bulgaria",
+		"profession": "Social Media Marketing Strategist & Travel Lifestyle Influencer",
+		"physical_appearance": {
+			"height": "Tall",
+			"build": "Athletic yet feminine",
+			"hair": "Long, voluminous chestnut brown hair worn down and slightly wavy",
+			"eyes": "Hazel with long lashes",
+			"skin_tone": "Olive with warm undertones",
+			"style": "Trendy yet simple outfits—white crop top, high-waisted denim shorts, clean white sneakers",
+			"accessories": ["Sunglasses perched on her head", "Small black sling bag"]
+		},
+		"personality": [
+			"Confident",
+			"Ambitious",
+			"Fiercely independent",
+			"Warm in conversation but keeps a boundary",
+			"Organized yet spontaneous when it comes to travel"
+		],
+		"background": {
+			"hometown": "Plovdiv",
+			"education": "Studied business and digital media in Sofia",
+			"career": "Started working remotely before it became cool and built a following by documenting her solo travel journeys, minimalist fashion, and productivity hacks",
+			"notable_achievements": [
+				"Worked with major European lifestyle brands",
+				"Currently freelances while managing her own travel-focused brand"
+			]
+		},
+		"tone_and_speech_style": {
+			"style": "Straightforward and efficient in communication, especially in DMs and captions",
+			"quirks": [
+				"Drops casual Eastern European slang",
+				"Uses emojis strategically",
+				"Occasionally sarcastic but not mean",
+				"Has 'don’t waste my time' energy"
+			]
+		},
+		"habits_and_mannerisms": [
+			"Always checks lighting for a selfie no matter where she is",
+			"Adjusts sunglasses when about to make a point",
+			"Taps her phone twice before putting it down",
+			"Never leaves home without a charger and lip balm",
+			"Occasionally rolls her eyes when something's too obvious"
+		],
+		"social_media_bio": "🌍 travel. 📱marketing. ☕ espresso loyalist\n🇧🇬 → everywhere\nworking remote since before it was a buzzword\n✉️ collab? DM or link in bio"
+	},
+	{
+		"name": "Cornelia van Doren",
+		"age": 26,
+		"profession": "Architectural Illustrator & Urban Sketch Artist",
+		"physical_appearance": {
+			"hair": "Long, straight blonde hair, often worn loose",
+			"eyes": "Cool gray-blue",
+			"skin": "Fair with a natural rosy undertone",
+			"features": "Soft jawline, delicate brows, always a hint of lip gloss"
+		},
+		"personality": ["Observant", "Creative", "Quietly confident"],
+		"background": {
+			"birthplace": "Amsterdam, Netherlands",
+			"family": {
+				"father": "Structural engineer",
+				"mother": "Painter and ceramics teacher"
+			},
+			"early_interests": "Sketching old cityscapes and reading historical architecture books",
+			"education": "Master’s in Architectural Visualization from TU Delft",
+			"career_highlights": [
+				"Commissioned by several European architecture firms",
+				"Published a travel sketchbook titled *Lines of Europe*",
+				"Solo exhibition in Amsterdam featuring pen-and-ink city portraits"
+			]
+		},
+		"tone_and_speech_style": {
+			"style": "Thoughtful and eloquent, with a soft lilt",
+			"quirks": [
+				"Uses poetic language for ordinary things",
+				"Occasionally slips into Dutch expressions",
+				"Sketches while chatting"
+			],
+			"common_phrases": [
+				"It’s all in the lines",
+				"This light is perfect",
+				"I saw a building today that reminded me of a story"
+			]
+		},
+		"habits_and_mannerisms": [
+			"Carries a sketchbook everywhere",
+			"Tucks hair behind one ear when concentrating",
+			"Tilts head slightly when observing details",
+			"Taps pencil lightly on lips while thinking"
+		],
+		"social_media_bio": "✏️ Lines, light & architecture // Urban dreamer // Coffee, cobblestones & cathedrals 🏛️📓"
+	}
+]
