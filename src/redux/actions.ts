@@ -114,20 +114,19 @@ export const getCurrentUser = createAsyncThunk(
         .then((data) => {
           return data.data;
         });
-      let subscription = false;
+      let subscription: any = null;
       if (userId) {
-        subscription =
-          (
-            await supabase
-              .from("subscriptions")
-              .select("subscription_id")
-              .eq("user_id", userId)
-          ).data.length > 0;
+        subscription = await supabase
+          .from("subscriptions")
+          .select("plan")
+          .eq("user_id", userId)
+          .gt("end_date", new Date().toISOString())
+          .single();
       }
       return {
         success: true,
         message: "",
-        data: { ...user, isSubscribed: subscription },
+        data: { ...user, isSubscribed: subscription?.data?.plan || "" },
       };
     } catch (error: any) {
       return {

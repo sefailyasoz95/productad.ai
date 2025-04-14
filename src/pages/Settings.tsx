@@ -25,6 +25,12 @@ import DashboardLayout from "@/components/DashboardLayout";
 
 const Settings = () => {
   const user = useAppSelector((state) => state.global.user);
+  const products = useAppSelector((state) => state.global.products);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getProducts());
+  }, []);
+
   return (
     <DashboardLayout>
       <div className="flex flex-col gap-6">
@@ -127,159 +133,17 @@ const Settings = () => {
                   Manage your subscription and billing information
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="bg-muted/50 border rounded-md p-4">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <h3 className="font-semibold">Pro Plan</h3>
-                      <p className="text-sm text-muted-foreground">
-                        $24.99 / month
-                      </p>
-                    </div>
-                    <Badge className="bg-brand-purple/10 text-brand-purple border-brand-purple/20">
-                      Active
-                    </Badge>
-                  </div>
-                  <div className="mt-4 grid grid-cols-2 gap-4">
-                    <div>
-                      <p className="text-muted-foreground text-sm">
-                        Next billing date
-                      </p>
-                      <p className="font-medium">May 15, 2025</p>
-                    </div>
-                    <div>
-                      <p className="text-muted-foreground text-sm">
-                        Images remaining
-                      </p>
-                      <p className="font-medium">7 of 10</p>
-                    </div>
-                    <div>
-                      <p className="text-muted-foreground text-sm">
-                        Videos remaining
-                      </p>
-                      <p className="font-medium">8 of 10</p>
-                    </div>
-                    <div>
-                      <p className="text-muted-foreground text-sm">
-                        Voices remaining
-                      </p>
-                      <p className="font-medium">10 of 10</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Available Plans</Label>
-                  <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
-                    <Card className="border-brand-purple/30">
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-lg">Plus</CardTitle>
-                        <CardDescription>
-                          <span className="text-2xl font-bold">$14.99</span> /
-                          month
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="text-sm">
-                        <ul className="space-y-2">
-                          <li className="flex items-center">
-                            <Check className="h-4 w-4 mr-2 text-green-500" />5
-                            AI images per month
-                          </li>
-                          <li className="flex items-center text-muted-foreground">
-                            <X className="h-4 w-4 mr-2" />
-                            No videos
-                          </li>
-                          <li className="flex items-center text-muted-foreground">
-                            <X className="h-4 w-4 mr-2" />
-                            No voiceovers
-                          </li>
-                          <li className="flex items-center">
-                            <Check className="h-4 w-4 mr-2 text-green-500" />
-                            Basic support
-                          </li>
-                        </ul>
-                      </CardContent>
-                      <CardFooter>
-                        <Button variant="outline" className="w-full">
-                          Downgrade
-                        </Button>
-                      </CardFooter>
-                    </Card>
-
-                    <Card className="border-brand-purple bg-brand-purple/5">
-                      <CardHeader className="pb-2">
-                        <div className="flex justify-between items-center">
-                          <CardTitle className="text-lg">Pro</CardTitle>
-                          <Badge>Current</Badge>
-                        </div>
-                        <CardDescription>
-                          <span className="text-2xl font-bold">$24.99</span> /
-                          month
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="text-sm">
-                        <ul className="space-y-2">
-                          <li className="flex items-center">
-                            <Check className="h-4 w-4 mr-2 text-green-500" />
-                            10 AI images per month
-                          </li>
-                          <li className="flex items-center">
-                            <Check className="h-4 w-4 mr-2 text-green-500" />
-                            10 AI videos per month
-                          </li>
-                          <li className="flex items-center">
-                            <Check className="h-4 w-4 mr-2 text-green-500" />
-                            10 AI voiceovers
-                          </li>
-                          <li className="flex items-center">
-                            <Check className="h-4 w-4 mr-2 text-green-500" />
-                            Priority support
-                          </li>
-                        </ul>
-                      </CardContent>
-                      <CardFooter>
-                        <Button disabled className="w-full">
-                          Current Plan
-                        </Button>
-                      </CardFooter>
-                    </Card>
-
-                    <Card className="border-brand-purple/30">
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-lg">Pro Max</CardTitle>
-                        <CardDescription>
-                          <span className="text-2xl font-bold">$34.99</span> /
-                          month
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="text-sm">
-                        <ul className="space-y-2">
-                          <li className="flex items-center">
-                            <Check className="h-4 w-4 mr-2 text-green-500" />
-                            20 AI images per month
-                          </li>
-                          <li className="flex items-center">
-                            <Check className="h-4 w-4 mr-2 text-green-500" />
-                            20 AI videos per month
-                          </li>
-                          <li className="flex items-center">
-                            <Check className="h-4 w-4 mr-2 text-green-500" />
-                            20 AI voiceovers
-                          </li>
-                          <li className="flex items-center">
-                            <Check className="h-4 w-4 mr-2 text-green-500" />
-                            24/7 premium support
-                          </li>
-                        </ul>
-                      </CardContent>
-                      <CardFooter>
-                        <Button className="w-full bg-gradient-to-r from-brand-purple to-brand-blue">
-                          Upgrade
-                        </Button>
-                      </CardFooter>
-                    </Card>
-                  </div>
-                </div>
+              <CardContent className="grid grid-cols-1 lg:grid-cols-3">
+                {products.map((product, key) => (
+                  <PricingItem
+                    product={product}
+                    onItemSelect={() => {}}
+                    isCurrent={
+                      user.isSubscribed &&
+                      user.isSubscribed.includes(product.name)
+                    }
+                  />
+                ))}
               </CardContent>
             </Card>
 
@@ -531,4 +395,8 @@ export default Settings;
 
 import { Badge } from "@/components/ui/badge";
 import { Check, X } from "lucide-react";
-import { useAppSelector } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { startOfDecade } from "date-fns";
+import { useEffect } from "react";
+import { getProducts } from "@/redux/actions";
+import PricingItem from "@/components/PricingItem";

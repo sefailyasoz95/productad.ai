@@ -11,11 +11,17 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { StripeProduct } from "@/lib/types";
+import { cn } from "@/lib/utils";
 type Props = {
   product: StripeProduct;
   onItemSelect: (priceId: string, planType) => void;
+  isCurrent?: boolean;
 };
-export default function PricingItem({ product, onItemSelect }: Props) {
+export default function PricingItem({
+  product,
+  onItemSelect,
+  isCurrent,
+}: Props) {
   const formatCurrency = (amount, currency) => {
     return new Intl.NumberFormat("en-US", {
       style: "currency",
@@ -26,8 +32,13 @@ export default function PricingItem({ product, onItemSelect }: Props) {
 
   return (
     <div className="flex justify-center items-center w-full p-4">
-      <Card className="w-full max-w-md bg-white border-2 border-violet-200 shadow-lg rounded-lg overflow-hidden">
-        <CardHeader className="bg-white pb-0">
+      <Card
+        className={cn(
+          "w-full max-w-md border-2 border-violet-200 shadow-lg rounded-lg overflow-hidden",
+          isCurrent ? "bg-violet-200" : ""
+        )}
+      >
+        <CardHeader className=" pb-0">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
               <Sparkles className="h-5 w-5 text-purple-500" />
@@ -35,8 +46,10 @@ export default function PricingItem({ product, onItemSelect }: Props) {
                 {product.name}
               </CardTitle>
             </div>
-            <Badge className="bg-violet-100 text-violet-800 hover:bg-violet-200">
-              {product.prices[1].recurring.interval}ly
+            <Badge className="bg-violet-100 text-violet-800 hover:bg-violet-200 capitalize">
+              {isCurrent
+                ? "Current Plan"
+                : product.prices[1].recurring.interval + "ly"}
             </Badge>
           </div>
           <CardDescription className="text-gray-600 mt-2">
@@ -92,15 +105,22 @@ export default function PricingItem({ product, onItemSelect }: Props) {
           </div>
         </CardContent>
 
-        <CardFooter className="px-6 py-4 bg-white">
+        <CardFooter className="px-6 py-4">
           <Button
             className="w-full py-6 bg-violet-500 hover:bg-violet-600 text-white font-medium rounded-lg flex items-center justify-center gap-2"
             onClick={() => {
               onItemSelect(product.prices[1].id, product.name);
             }}
+            disabled={isCurrent}
           >
             <Zap className="h-5 w-5" />
-            <span>Start Creating</span>
+            <span>
+              {isCurrent === undefined
+                ? "Start Creating"
+                : isCurrent
+                ? "Current plan"
+                : "Update to this plan"}
+            </span>
           </Button>
         </CardFooter>
       </Card>

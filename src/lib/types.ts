@@ -18,7 +18,7 @@ export type UserType = {
   updated_at: Date;
   company: string;
   marketing_emails_allowed: boolean;
-  isSubscribed?: boolean;
+  isSubscribed: string;
 };
 interface MarketingFeature {
   name: string;

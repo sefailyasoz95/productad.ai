@@ -18,7 +18,6 @@ import { useAppDispatch } from "./redux/store";
 import AuthCheck from "./components/AuthCheck";
 import { supabase } from "./lib/supabase";
 import { getCurrentUser } from "./redux/actions";
-import DashboardLayout from "./components/DashboardLayout";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCanceled from "./pages/PaymentCanceled";
 
