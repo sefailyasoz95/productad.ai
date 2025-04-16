@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { useEffect } from "react";
-import { getProducts } from "@/redux/actions";
+import { useEffect, useState } from "react";
+import { getProducts, updateUser } from "@/redux/actions";
 import PricingItem from "@/components/PricingItem";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,15 +11,35 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UserRound, CreditCard, Bell, Save, AlertCircle, Trash2, FileText, Building } from "lucide-react";
 import DashboardLayout from "@/components/DashboardLayout";
+import { UserType } from "@/lib/types";
+import { AiOutlineLoading } from "react-icons/ai";
 
 const Settings = () => {
 	const user = useAppSelector((state) => state.global.user);
+	const loading = useAppSelector((state) => state.global.loading);
 	const products = useAppSelector((state) => state.global.products);
 	const dispatch = useAppDispatch();
+	const [userForm, setUserForm] = useState<UserType>(user);
+
 	useEffect(() => {
 		dispatch(getProducts());
 	}, []);
 
+	const handleInputChange = () => (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = event.currentTarget;
+		console.log("value: ", value);
+
+		setUserForm({ ...userForm, [name]: value });
+	};
+	const handleSwitchChange = () => (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, checked } = event.currentTarget;
+		setUserForm({ ...userForm, [name]: checked });
+	};
+
+	const handleSaveChanges = () => {
+		const { isSubscribed, ...rest } = userForm;
+		dispatch(updateUser({ ...rest }));
+	};
 	return (
 		<DashboardLayout>
 			<div className='flex flex-col gap-6'>
@@ -48,29 +68,41 @@ const Settings = () => {
 								<div className='flex flex-col sm:flex-row gap-4'>
 									<div className='space-y-2 flex-1'>
 										<Label htmlFor='name'>Username</Label>
-										<Input id='name' defaultValue={user?.username} />
+										<Input id='name' defaultValue={userForm?.username} onChange={handleInputChange} name='username' />
 									</div>
 									<div className='space-y-2 flex-1'>
 										<Label htmlFor='email'>Email</Label>
-										<Input id='email' type='email' defaultValue={user?.email} />
+										<Input
+											id='email'
+											type='email'
+											defaultValue={userForm?.email}
+											onChange={handleInputChange}
+											name='email'
+											disabled
+										/>
 									</div>
 								</div>
 
 								<div className='space-y-2'>
 									<Label htmlFor='company'>Company (Optional)</Label>
-									<Input id='company' defaultValue={user?.company} />
+									<Input id='company' defaultValue={userForm?.company} onChange={handleInputChange} name='company' />
 								</div>
 
 								<div className='flex items-center space-x-2'>
-									<Switch id='marketing-emails' defaultChecked={user?.marketing_emails_allowed} />
+									<Switch
+										id='marketing-emails'
+										name='marketing_emails_allowed'
+										defaultChecked={userForm?.marketing_emails_allowed}
+										onChange={handleSwitchChange}
+									/>
 									<Label htmlFor='marketing-emails'>Receive marketing emails and updates</Label>
 								</div>
 							</CardContent>
 							<CardFooter className='flex justify-between'>
 								<Button variant='outline'>Cancel</Button>
-								<Button>
-									<Save className='mr-2 h-4 w-4' />
-									Save Changes
+								<Button onClick={handleSaveChanges}>
+									{!loading ? <Save className='mr-2 h-4 w-4' /> : <AiOutlineLoading className='mr-2 h-4 w-4' />}
+									{!loading ? "Saving Changes" : "Save Changes"}
 								</Button>
 							</CardFooter>
 						</Card>
@@ -267,17 +299,17 @@ const Settings = () => {
 							<CardContent className='space-y-4'>
 								<div className='space-y-2'>
 									<Label htmlFor='org-name'>Organization Name</Label>
-									<Input id='org-name' defaultValue='Acme Corporation' />
+									<Input id='org-name' value='Acme Corporation' />
 								</div>
 
 								<div className='space-y-2'>
 									<Label htmlFor='org-address'>Business Address</Label>
-									<Input id='org-address' defaultValue='123 Main St, City, Country' />
+									<Input id='org-address' value='123 Main St, City, Country' />
 								</div>
 
 								<div className='space-y-2'>
 									<Label htmlFor='org-tax'>Tax ID / VAT Number (Optional)</Label>
-									<Input id='org-tax' defaultValue='US123456789' />
+									<Input id='org-tax' value='US123456789' />
 								</div>
 
 								<div className='space-y-2 pt-4 border-t'>

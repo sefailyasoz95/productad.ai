@@ -1,4 +1,8 @@
+import { Buffer } from "buffer";
+import { gemini } from "@/lib/gemini";
 import { supabase } from "@/lib/supabase";
+import { UserType } from "@/lib/types";
+import { ContentListUnion, Modality, Content } from "@google/genai";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 export const signInWithGoogle = createAsyncThunk("auth/login", async (data, thunkAPI) => {
@@ -246,6 +250,92 @@ export const updateInfluencer = createAsyncThunk(
 	}
 );
 
+export const updateUser = createAsyncThunk("users/updateUser", async (updateData: Partial<UserType>) => {
+	try {
+		const { id, ...rest } = updateData;
+
+		const { data, error } = await supabase
+			.from("users")
+			.update({ ...rest })
+			.eq("id", id);
+		console.log("error: ", error);
+		console.log("data: ", data);
+
+		if (error) {
+			return { data: undefined, success: false, message: error.message };
+		}
+
+		return { data: undefined, success: true, message: "updated successfully" };
+	} catch (error) {
+		return { data: undefined, success: false, message: "update failed" };
+	}
+});
+
+export const generateImage = createAsyncThunk("ai/generateImage", async (data: { file?: File; prompt: string }) => {
+	try {
+		const base64Image = await convertToBase64(data.file);
+
+		// Prepare the content parts
+		const contents: ContentListUnion = [
+			{ text: data.prompt },
+			{
+				inlineData: {
+					mimeType: "image/png",
+					data: base64Image,
+				},
+			},
+		];
+		const response = await gemini.models.generateContent({
+			model: "gemini-2.0-flash-exp-image-generation",
+			contents,
+			config: {
+				responseModalities: [Modality.TEXT, Modality.IMAGE],
+			},
+		});
+		for (const part of response.candidates[0].content.parts) {
+			// Based on the part type, either show the text or save the image
+			if (part.inlineData) {
+				const imageData = part.inlineData.data;
+				return {
+					data: `data:image/png;base64,${imageData}`,
+					success: true,
+					message: "image generated successfully",
+				};
+			} else {
+				return {
+					data: "",
+					success: false,
+					message: "image generation failed",
+				};
+			}
+		}
+	} catch (error) {
+		console.log("error:", error);
+
+		return {
+			data: "",
+			success: false,
+			message: "cannot generate image",
+		};
+	}
+});
+const convertToBase64 = (file: File): Promise<string> => {
+	return new Promise((resolve, reject) => {
+		const reader = new FileReader();
+
+		reader.onload = () => {
+			const result = reader.result as string;
+			const base64String = result.split(",")[1]; // Remove the data URL prefix
+			resolve(base64String);
+		};
+
+		reader.onerror = () => {
+			reject(new Error("Failed to read file"));
+		};
+
+		reader.readAsDataURL(file);
+	});
+};
 // Example 11: Add an image to an influencer's image array
 // export async function addInfluencerImage(id: string, imageUrl: string) {
 //   // First get the current images array

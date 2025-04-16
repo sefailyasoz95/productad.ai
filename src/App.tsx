@@ -14,18 +14,31 @@ import Settings from "./pages/Settings";
 import Socials from "./pages/Socials";
 import { useEffect, useLayoutEffect } from "react";
 import { initFirebase } from "./lib/firebase";
-import { useAppDispatch } from "./redux/store";
+import { useAppDispatch, useAppSelector } from "./redux/store";
 import AuthCheck from "./components/AuthCheck";
 import { supabase } from "./lib/supabase";
 import { getCurrentUser } from "./redux/actions";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentCanceled from "./pages/PaymentCanceled";
 import CreateInfluencer from "./pages/CreateInfluencer";
+import { toast } from "sonner";
 
 const queryClient = new QueryClient();
 
 const App = () => {
 	const dispatch = useAppDispatch();
+	const message = useAppSelector((state) => state.global.message);
+	const success = useAppSelector((state) => state.global.success);
+	const loading = useAppSelector((state) => state.global.loading);
+	const error = useAppSelector((state) => state.global.error);
+	useEffect(() => {
+		if (!loading && success) {
+			toast.success(message);
+		}
+		if (!loading && error) {
+			toast.error(message);
+		}
+	}, [success, message, loading, error]);
 
 	useEffect(() => {
 		(async function x() {

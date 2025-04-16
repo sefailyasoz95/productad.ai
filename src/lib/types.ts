@@ -8,6 +8,7 @@ export type InitialState = {
 	products: StripeProduct[];
 	checkoutUrl?: string;
 	influencers: Influencer[];
+	generatedImage: string;
 };
 export type UserType = {
 	id: string;
