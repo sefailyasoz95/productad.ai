@@ -53,7 +53,8 @@ const GenerateImage = () => {
 				file: selectedFile,
 				prompt: `You're a professional ad and commercial image generator / photographer. Based on ${
 					selectedFile ? "shared image and" : ""
-				} this scene description: ${description} and this photo style: ${photoStyle} genereate an. Product called ${productName} and this is product description: ${sceneDescription}.`,
+				} this scene description: ${description} and this photo style: ${photoStyle} generate an image. 
+				 Product called ${productName} and this is product description: ${sceneDescription}. Make sure product and product name clearly visible in the image`,
 			})
 		);
 	};
