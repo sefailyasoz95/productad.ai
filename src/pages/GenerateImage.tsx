@@ -22,7 +22,11 @@ import {
 import DashboardLayout from "@/components/DashboardLayout";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { clearGeneratedImage } from "@/redux/reducers";
-import { generateImage, getAllInfluencers } from "@/redux/actions";
+import {
+  generateImage,
+  getAllInfluencers,
+  updateImageLike,
+} from "@/redux/actions";
 import ImageDownloader from "@/components/ImageDownloader";
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
@@ -67,6 +71,9 @@ const GenerateImage = () => {
     if (influencers.length === 0) {
       dispatch(getAllInfluencers());
     }
+    // return () => {
+    //   dispatch(clearGeneratedImage());
+    // };
   }, []);
 
   const handleGenerate = () => {
@@ -96,6 +103,14 @@ const GenerateImage = () => {
     setSelectedFile(null);
     setUploadedImage(null);
   };
+  useEffect(() => {
+    if (resultLiked !== undefined) {
+      dispatch(
+        updateImageLike({ liked: resultLiked, image_url: generatedImage })
+      );
+    }
+  }, [resultLiked]);
+  console.log("generatedImage: ", generatedImage);
 
   return (
     <DashboardLayout>
@@ -344,7 +359,7 @@ const GenerateImage = () => {
                       <img
                         src={generatedImage}
                         alt="Generated marketing"
-                        className="w-full object-contain"
+                        className="w-full h-auto object-contain"
                       />
                       <div className="absolute bottom-3 w-full px-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-row items-center justify-between">
                         <ThumbsUp

@@ -17,8 +17,21 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import DashboardLayout from "@/components/DashboardLayout";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
+import { getRecentGenerations } from "@/redux/actions";
 
 const Dashboard = () => {
+  const dispatch = useAppDispatch();
+  const recentGenerations = useAppSelector(
+    (state) => state.global.recentGenerations
+  );
+  console.log("recentGenerations: ", recentGenerations);
+
+  useEffect(() => {
+    dispatch(getRecentGenerations());
+  }, []);
+
   return (
     <DashboardLayout>
       <div className="flex flex-col gap-6">
@@ -103,15 +116,20 @@ const Dashboard = () => {
 
         <h2 className="text-2xl font-semibold mb-4">Recent Creations</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {[1, 2, 3, 4].map((item) => (
+          {recentGenerations.map((item) => (
             <Card key={item} className="hover:shadow-lg transition-all">
-              <div className="aspect-square bg-muted rounded-t-lg flex items-center justify-center">
-                <ImageIcon className="h-12 w-12 text-muted-foreground/40" />
+              <div className="aspect-square bg-muted rounded-t-lg flex overflow-hidden">
+                <img
+                  src={item.images.image_url}
+                  className="w-full h-auto object-contain hover:scale-110 duration-300 transition-all"
+                />
               </div>
               <CardContent className="p-3">
-                <p className="font-medium truncate">Product Image {item}</p>
+                <p className="font-medium truncate">
+                  {item.images.product_name}
+                </p>
                 <p className="text-xs text-muted-foreground">
-                  Created yesterday
+                  {new Date(item.created_at).toLocaleDateString()}
                 </p>
               </CardContent>
             </Card>

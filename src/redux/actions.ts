@@ -406,6 +406,13 @@ export const generateImage = createAsyncThunk(
         },
       });
       let responseMessage = "";
+      if (response.candidates[0].finishReason === "IMAGE_SAFETY") {
+        return {
+          data: "",
+          success: false,
+          message: "due to safety issues, image could not be genereated",
+        };
+      }
       for (const part of response.candidates[0].content.parts) {
         // Based on the part type, either show the text or save the image
         if (part.inlineData) {
@@ -448,7 +455,7 @@ export const generateImage = createAsyncThunk(
             responseMessage += " but it could not be saved into the history";
           }
           return {
-            data: `data:image/png;base64,${imageData}`,
+            data: generatedUpload.data,
             success: true,
             message: responseMessage,
           };
@@ -488,6 +495,67 @@ const convertToBase64 = (file: File): Promise<string> => {
     reader.readAsDataURL(file);
   });
 };
+
+export const getRecentGenerations = createAsyncThunk(
+  "recent/getRecentGenerations",
+  async () => {
+    try {
+      const user_id = (await supabase.auth.getSession()).data.session.user.id;
+      const { data, error } = await supabase
+        .from("history")
+        .select(
+          `
+        *,
+        images:image_id (*)
+      `
+        )
+        .eq("user_id", user_id)
+        .order("history_id", { ascending: false })
+        .limit(4);
+
+      if (error) {
+        return { data: [], success: false, message: error.message };
+      }
+
+      return {
+        data,
+        success: true,
+        message: "",
+      };
+    } catch (error) {
+      return {
+        data: [],
+        success: false,
+        message: "could not get the recent generations!",
+      };
+    }
+  }
+);
+
+export const updateImageLike = createAsyncThunk(
+  "image/updateImageLike",
+  async (updateData: { liked: boolean; image_url: string }) => {
+    try {
+      const { data, error } = await supabase
+        .from("images")
+        .update({ liked: updateData.liked })
+        .eq("image_url", updateData.image_url);
+
+      if (error) {
+        return { data: undefined, success: false, message: error.message };
+      }
+
+      return {
+        data: undefined,
+        success: true,
+        message: "thanks for the feedback!",
+      };
+    } catch (error) {
+      return { data: undefined, success: false, message: "update failed" };
+    }
+  }
+);
+
 async function uploadBase64ImageToSupabase(
   base64Image: string,
   bucketName: string,
@@ -550,15 +618,14 @@ async function uploadBase64ImageToSupabase(
   // Get the public URL
   const {
     data: { publicUrl },
-  } = supabase.storage
-    .from(bucketName)
-    .getPublicUrl(`images/${actualFileName}`);
+  } = supabase.storage.from(bucketName).getPublicUrl(`${actualFileName}`);
   return {
     success: true,
     message: "",
     data: publicUrl,
   };
 }
+
 /**
  * Converts an image URL to a base64 encoded string using fetch
  *
