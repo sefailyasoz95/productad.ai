@@ -298,6 +298,7 @@ export const generateImage = createAsyncThunk(
 		sceneDescription: string;
 		publicAllowed: boolean;
 		influencerImage: string | null;
+		influencer_id: string | null;
 	}) => {
 		try {
 			const prompt = `You're a professional ad and commercial photographer, the best advertiser in the whole universe. 
@@ -376,6 +377,8 @@ export const generateImage = createAsyncThunk(
 								description: prompt,
 								original_image_url: originalImageURL,
 								public_allowed: data.publicAllowed,
+								product_name: data.productName,
+								influencer_id: data.influencer_id,
 							})
 							.select();
 						if (insertGeneratedImageResponse.error) {
@@ -384,7 +387,7 @@ export const generateImage = createAsyncThunk(
 							const insertGeneratedHistoryResponse = await supabase.from("history").insert({
 								user_id,
 								action_type: "image_generation",
-								content_id: insertGeneratedImageResponse.data[0].image_id,
+								image_id: insertGeneratedImageResponse.data[0].image_id,
 							});
 							if (insertGeneratedHistoryResponse.error) {
 								responseMessage += " but it could not be saved into the history";
@@ -432,37 +435,44 @@ export const generateVideo = createAsyncThunk(
 		productName: string;
 		sceneDescription: string;
 		publicAllowed: boolean;
-		influencerId?: number;
+		influencerId?: string;
 		aspectRatio: "16:9" | "9:16";
 	}) => {
 		try {
-			// let operation = await gemini.models.generateVideos({
-			// 	model: "veo-2.0-generate-001",
-			// 	prompt: `a commercial video of the given product in the image. `,
-			// 	config: {
-			// 		personGeneration: "dont_allow",
-			// 		aspectRatio: "16:9",
-			// 		durationSeconds: 8,
-			// 		numberOfVideos: 1,
-			// 	},
-			// 	image: {
-			// 		gcsUri: data.productImage,
-			// 		mimeType: "image/png",
-			// 	},
-			// });
-			// while (!operation.done) {
-			// 	await new Promise((resolve) => setTimeout(resolve, 10000));
-			// 	operation = await gemini.operations.getVideosOperation({
-			// 		operation: operation,
-			// 	});
-			// }
-			// operation.response?.generatedVideos?.forEach(async (generatedVideo, n) => {
-			// 	const resp = await fetch(`${generatedVideo.video?.uri}&key=GOOGLE_API_KEY`); // append your API key
-			// 	console.log("resp: ", resp.json());
-			// 	const writer = createWriteStream(`video${n}.mp4`);
-			// 	const x = Readable.fromWeb(resp.body as any).pipe(writer);
-			// });
-		} catch (error) {}
+			let image = "";
+			if (!data.influencerId) {
+				const generatedUpload = await uploadBase64ImageToSupabase(
+					data.productImage,
+					"images",
+					data.productName.replace(" ", "")
+				);
+				if (generatedUpload.success) image = generatedUpload.data;
+			} else image = data.productImage;
+			const response = await axios.post(import.meta.env.VITE_MOBILE_API_URL_LOCAL + "generate-video", {
+				...data,
+				productImage: image,
+			});
+			if (response.status === 200) {
+				return {
+					data: response.data,
+					success: true,
+					message: "",
+				};
+			}
+			return {
+				data: undefined,
+				success: false,
+				message: "video generation failed",
+			};
+		} catch (error) {
+			console.log("error:", error);
+
+			return {
+				data: undefined,
+				success: false,
+				message: "video generation failed",
+			};
+		}
 	}
 );
 
@@ -484,7 +494,7 @@ const convertToBase64 = (file: File): Promise<string> => {
 	});
 };
 
-export const getRecentGenerations = createAsyncThunk("recent/getRecentGenerations", async () => {
+export const getRecentGenerations = createAsyncThunk("recent/getRecentGenerations", async (limit?: number) => {
 	try {
 		const user_id = (await supabase.auth.getSession()).data.session.user.id;
 		const { data, error } = await supabase
@@ -497,7 +507,7 @@ export const getRecentGenerations = createAsyncThunk("recent/getRecentGeneration
 			)
 			.eq("user_id", user_id)
 			.order("history_id", { ascending: false })
-			.limit(4);
+			.limit(limit === undefined ? 1000 : limit);
 
 		if (error) {
 			return { data: [], success: false, message: error.message };
@@ -652,30 +662,30 @@ async function imageUrlToBase64(imageUrl: string): Promise<string | null> {
 	}
 }
 
-export const generateVideo2 = async () => {
-	try {
-		const response = await fetch("https://api.aimlapi.com/v2/generate/video/kling/generation", {
-			method: "POST",
-			headers: {
-				Authorization: "Bearer " + import.meta.env.VITE_AIML_API_KEY,
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				model: "kling-video/v1/standard/image-to-video",
-				prompt: "Woman preparing coffee in the kitchen and pouring it into a cup",
-				image_url:
-					"https://ahzlcevtbhbborvkiczm.supabase.co/storage/v1/object/public/images//BIALETTI-1744882131549-.png",
-				duration: "5",
-			}),
-		}).then((res) => res.json());
+// export const generateVideo2 = async () => {
+// 	try {
+// 		const response = await fetch("https://api.aimlapi.com/v2/generate/video/kling/generation", {
+// 			method: "POST",
+// 			headers: {
+// 				Authorization: "Bearer " + import.meta.env.VITE_AIML_API_KEY,
+// 				"Content-Type": "application/json",
+// 			},
+// 			body: JSON.stringify({
+// 				model: "kling-video/v1/standard/image-to-video",
+// 				prompt: "Woman preparing coffee in the kitchen and pouring it into a cup",
+// 				image_url:
+// 					"https://ahzlcevtbhbborvkiczm.supabase.co/storage/v1/object/public/images//BIALETTI-1744882131549-.png",
+// 				duration: "5",
+// 			}),
+// 		}).then((res) => res.json());
 
-		// "742452fc-377f-44d6-a03b-8d219694a66a:kling-video/v1.6/standard/text-to-video"
+// 		// "742452fc-377f-44d6-a03b-8d219694a66a:kling-video/v1.6/standard/text-to-video"
 
-		console.log("Generation:", response);
-	} catch (error) {
-		console.log("error: ", error);
-	}
-};
+// 		console.log("Generation:", response);
+// 	} catch (error) {
+// 		console.log("error: ", error);
+// 	}
+// };
 export const getGeneratedContent = async () => {
 	try {
 		const params = new URLSearchParams({

@@ -5,14 +5,14 @@ import { Link } from "react-router-dom";
 import DashboardLayout from "@/components/DashboardLayout";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { generateVideo2, getGeneratedContent, getRecentGenerations } from "@/redux/actions";
+import { getRecentGenerations } from "@/redux/actions";
 
 const Dashboard = () => {
 	const dispatch = useAppDispatch();
 	const recentGenerations = useAppSelector((state) => state.global.recentGenerations);
 
 	useEffect(() => {
-		dispatch(getRecentGenerations());
+		dispatch(getRecentGenerations(4));
 	}, []);
 
 	return (
@@ -59,12 +59,7 @@ const Dashboard = () => {
 							</div>
 						</CardContent>
 						<CardFooter>
-							<Button
-								className='w-full bg-brand-blue hover:bg-brand-blue/90'
-								onClick={async () => {
-									// await generateVideo2();
-									await getGeneratedContent();
-								}}>
+							<Button className='w-full bg-brand-blue hover:bg-brand-blue/90'>
 								<PlusCircle className='mr-2 h-4 w-4' /> New Video
 							</Button>
 						</CardFooter>
@@ -93,7 +88,7 @@ const Dashboard = () => {
 				<h2 className='text-2xl font-semibold mb-4'>Recent Creations</h2>
 				<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
 					{recentGenerations.map((item) => (
-						<Card key={item} className='hover:shadow-lg transition-all'>
+						<Card key={item.history_id} className='hover:shadow-lg transition-all'>
 							<div className='aspect-square bg-muted rounded-t-lg flex overflow-hidden'>
 								<img
 									src={item.images.image_url}

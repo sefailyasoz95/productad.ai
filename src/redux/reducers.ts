@@ -4,6 +4,7 @@ import {
 	createCheckoutSession,
 	createInfluencer,
 	generateImage,
+	generateVideo,
 	getAllInfluencers,
 	getCurrentUser,
 	getProducts,
@@ -27,6 +28,7 @@ export const initialState: InitialState = {
 	influencers: [],
 	generatedImage: "",
 	recentGenerations: [],
+	generatedVideo: "",
 };
 
 export const reducer = createSlice({
@@ -178,6 +180,19 @@ export const reducer = createSlice({
 			.addCase(getRecentGenerations.fulfilled, (state, action) => {
 				if (action.payload.success) {
 					state.recentGenerations = action.payload.data;
+				} else state.error = true;
+				state.message = action.payload.message;
+				state.loading = false;
+			})
+			.addCase(generateVideo.pending, (state) => {
+				state.loading = true;
+				state.success = false;
+				state.error = false;
+				state.message = "";
+			})
+			.addCase(generateVideo.fulfilled, (state, action) => {
+				if (action.payload.success) {
+					state.generatedVideo = action.payload.data;
 				} else state.error = true;
 				state.message = action.payload.message;
 				state.loading = false;
