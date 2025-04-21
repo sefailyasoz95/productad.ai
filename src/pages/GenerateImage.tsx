@@ -71,9 +71,9 @@ const GenerateImage = () => {
     if (influencers.length === 0) {
       dispatch(getAllInfluencers());
     }
-    // return () => {
-    //   dispatch(clearGeneratedImage());
-    // };
+    return () => {
+      dispatch(clearGeneratedImage());
+    };
   }, []);
 
   const handleGenerate = () => {
@@ -197,8 +197,6 @@ const GenerateImage = () => {
                             src={influencer.images[0]}
                             alt={influencer.name}
                           />
-
-                          {/* Hover overlay - absolute positioned on top of the image */}
                           <div className="absolute inset-0 bg-black bg-opacity-70 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-center p-2 text-white overflow-y-auto">
                             <small>
                               <b>Name:</b> <i>{influencer.name}</i>
@@ -210,7 +208,7 @@ const GenerateImage = () => {
                               <b>Age:</b> <i>{influencer.age}</i>
                             </small>
                             <small>
-                              <b>From:</b>{" "}
+                              <b>From:</b>
                               <i>{influencer.background.birthplace}</i>
                             </small>
                           </div>
@@ -218,36 +216,6 @@ const GenerateImage = () => {
                       </div>
                     ))}
                   </div>
-                  {/* <Select
-                    value={influencerId}
-                    onValueChange={(value) => {
-                      setInfluencerId(value);
-                      console.log("value: ", value);
-                    }}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select an Influencer" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {influencers.map((influencer) => (
-                        <SelectItem key={influencer.id} value={influencer.id}>
-                          <div className="flex flex-row items-center gap-x-2">
-                            <img
-                              className="w-24 object-cover rounded-lg"
-                              src={influencer.images[0]}
-                            />
-                            <div className="flex flex-col text-lg font-normal">
-                              <span className="">{influencer.name}</span>
-                              <span className="">
-                                {influencer.social_media_bio}
-                              </span>
-                              <span className="">{influencer.age}</span>
-                            </div>
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select> */}
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="product-name">Product Name *</Label>

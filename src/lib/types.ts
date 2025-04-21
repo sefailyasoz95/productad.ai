@@ -9,6 +9,7 @@ export type InitialState = {
   checkoutUrl?: string;
   influencers: Influencer[];
   generatedImage: string;
+  generatedVideo: string;
   recentGenerations: any[];
 };
 export type UserType = {
