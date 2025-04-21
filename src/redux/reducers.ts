@@ -41,6 +41,9 @@ export const reducer = createSlice({
 		clearGeneratedImage: (state) => {
 			state.generatedImage = "";
 		},
+		clearGeneratedVideo: (state) => {
+			state.generatedVideo = "";
+		},
 	},
 	extraReducers: (builder) => {
 		builder // *********** Login START *********** \\
@@ -200,6 +203,6 @@ export const reducer = createSlice({
 	},
 });
 
-export const { authCheck, clearGeneratedImage } = reducer.actions;
+export const { authCheck, clearGeneratedImage, clearGeneratedVideo } = reducer.actions;
 
 export default reducer.reducer;
